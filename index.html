@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÉXODOS - Kia P. Cabdill | Ciencia Ficción</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                linear-gradient(135deg, rgba(12, 12, 12, 0.8) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.85) 100%),
+                url('exodosespañol.jpg') center/cover no-repeat fixed;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(45deg, #000428, #004e92);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="0.8" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: stars 20s linear infinite;
+        }
+
+        @keyframes stars {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .author {
+            font-size: 1.5rem;
+            color: #b8b8b8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .genre {
+            font-size: 1.1rem;
+            color: #4ecdc4;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .podcast-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .podcast-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .podcast-description {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .languages-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .languages-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #ffd700;
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .language-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .language-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .language-card:hover::before {
+            left: 100%;
+        }
+
+        .language-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .language-flag {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .language-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        .book-cover {
+            width: 150px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.05);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .format-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .format-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .format-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .format-btn.ebook {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .format-btn.print {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+        }
+
+        .format-btn.audio {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 60px;
+        }
+
+        .footer p {
+            color: #b8b8b8;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .languages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .book-cover {
+                width: 120px;
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">ÉXODOS</h1>
+        <p class="author">por Kia P. Cabdill</p>
+        <p class="genre">Ciencia Ficción</p>
+    </header>
+
+    <section class="podcast-section">
+        <h2 class="podcast-title">🎧 Podcast Exclusivo</h2>
+        <audio controls>
+            <source src="exodos-podcast.mp3" type="audio/mpeg">
+            Tu navegador no soporta audio HTML5.
+        </audio>
+        <div class="podcast-description">
+            <h3>Descubre los secretos de ÉXODOS</h3>
+            <p>Sumérgete en una conversación fascinante generada con inteligencia artificial que explora los temas principales, personajes y el universo de esta épica novela de ciencia ficción. Una experiencia única que te llevará más allá de las páginas del libro.</p>
+        </div>
+    </section>
+
+    <main class="languages-container">
+        <h2 class="languages-title">Disponible en 4 Idiomas</h2>
+        
+        <div class="languages-grid">
+            <!-- Español -->
+            <div class="language-card">
+                <span class="language-flag">🇪🇸</span>
+                <h3 class="language-name">Español</h3>
+                <div class="book-cover">
+                    <img src="exodosespanol.jpg" alt="Ëxodos en Español" onerror="this.parentElement.innerHTML='Portada<br>Español'">
+                </div>
+                <div class="format-buttons">
+                    <a href="#" class="format-btn ebook">📱 eBook</a>
+                    <a href="#" class="format-btn print">📚 Libro Impreso</a>
+                    <a href="#" class="format-btn audio">🎧 Audiolibro</a>
+                </div>
+            </div>
+
+            <!-- Inglés -->
+            <div class="language-card">
+                <span class="language-flag">🇬🇧</span>
+                <h3 class="language-name">English</h3>
+                <div class="book-cover">
+                    <img src="exodosingles.jpg" alt="ÉXODOS in English" onerror="this.parentElement.innerHTML='Cover<br>English'">>
+                </div>
+                <div class="format-buttons">
+                    <a href="#" class="format-btn ebook">📱 eBook</a>
+                    <a href="#" class="format-btn print">📚 Print Book</a>
+                    <a href="#" class="format-btn audio">🎧 Audiobook</a>
+                </div>
+            </div>
+
+            <!-- Francés -->
+            <div class="language-card">
+                <span class="language-flag">🇫🇷</span>
+                <h3 class="language-name">Français</h3>
+                <div class="book-cover">
+                    <img src="exodosfrances.jpg" alt="ÉXODOS en Français" onerror="this.parentElement.innerHTML='Couverture<br>Français'">>
+                </div>
+                <div class="format-buttons">
+                    <a href="#" class="format-btn ebook">📱 eBook</a>
+                    <a href="#" class="format-btn print">📚 Livre Imprimé</a>
+                    <a href="#" class="format-btn audio">🎧 Livre Audio</a>
+                </div>
+            </div>
+
+            <!-- Alemán -->
+            <div class="language-card">
+                <span class="language-flag">🇩🇪</span>
+                <h3 class="language-name">Deutsch</h3>
+                <div class="book-cover">
+                    <img src="exodosaleman.jpg" alt="ÉXODOS auf Deutsch" onerror="this.parentElement.innerHTML='Cover<br>Deutsch'">>
+                </div>
+                <div class="format-buttons">
+                    <a href="#" class="format-btn ebook">📱 eBook</a>
+                    <a href="#" class="format-btn print">📚 Gedrucktes Buch</a>
+                    <a href="#" class="format-btn audio">🎧 Hörbuch</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Kia P. Cabdill. Todos los derechos reservados.</p>
+        <p>Una obra de ciencia ficción que trasciende fronteras e idiomas.</p>
+    </footer>
+
+    <script>
+        // Animación suave para los botones
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Aquí puedes añadir los enlaces reales a tus libros
+                alert('Redirigiendo a la tienda...');
+            });
+        });
+
+        // Efecto de partículas en el header
+        function createStars() {
+            const header = document.querySelector('.header');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                star.style.borderRadius = '50%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+                header.appendChild(star);
+            }
+        }
+
+        // Añadir animación CSS para las estrellas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        createStars();
+    </script>
+</body>
+</html>
