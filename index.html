@@ -104,36 +104,43 @@
             text-align: left;
         }
 
-        .languages-container {
+        .carousel-container {
             max-width: 1200px;
             margin: 60px auto;
             padding: 0 20px;
+            position: relative;
         }
 
-        .languages-title {
+        .carousel-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 50px;
             color: #ffd700;
         }
 
-        .languages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 400%;
         }
 
         .language-card {
+            flex: 0 0 25%;
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 20px;
             padding: 30px;
             text-align: center;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            margin: 0 10px;
         }
 
         .language-card::before {
@@ -151,11 +158,6 @@
             left: 100%;
         }
 
-        .language-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
         .language-flag {
             font-size: 3rem;
             margin-bottom: 15px;
@@ -170,11 +172,11 @@
         }
 
         .book-cover {
-            width: 150px;
-            height: 200px;
+            width: 200px;
+            height: 280px;
             margin: 0 auto 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
             transition: transform 0.3s ease;
             background: #333;
             display: flex;
@@ -182,6 +184,7 @@
             justify-content: center;
             color: #666;
             font-size: 0.9rem;
+            overflow: hidden;
         }
 
         .book-cover:hover {
@@ -192,7 +195,36 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 15px;
+        }
+
+        .audio-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .audio-btn:active {
+            transform: scale(0.98);
         }
 
         .format-buttons {
@@ -229,8 +261,55 @@
             background: linear-gradient(45deg, #f093fb, #f5576c);
         }
 
-        .format-btn.audio {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: -30px;
+        }
+
+        .carousel-nav.next {
+            right: -30px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #ffd700;
+            transform: scale(1.2);
         }
 
         .footer {
@@ -250,14 +329,29 @@
                 font-size: 2.5rem;
             }
             
-            .languages-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .book-cover {
-                width: 120px;
-                height: 160px;
+                width: 150px;
+                height: 210px;
             }
+
+            .carousel-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .carousel-nav.prev {
+                left: -15px;
+            }
+
+            .carousel-nav.next {
+                right: -15px;
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -280,65 +374,85 @@
         </div>
     </section>
 
-    <main class="languages-container">
-        <h2 class="languages-title">Disponible en 4 Idiomas</h2>
+    <main class="carousel-container">
+        <h2 class="carousel-title">Disponible en 4 Idiomas</h2>
         
-        <div class="languages-grid">
-            <!-- Español -->
-            <div class="language-card">
-                <span class="language-flag">🇪🇸</span>
-                <h3 class="language-name">Español</h3>
-                <div class="book-cover">
-                    <img src="exodosespanol.jpg" alt="Ëxodos en Español" onerror="this.parentElement.innerHTML='Portada<br>Español'">
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" onclick="moveCarousel(-1)">❮</button>
+            <button class="carousel-nav next" onclick="moveCarousel(1)">❯</button>
+            
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Español -->
+                <div class="language-card">
+                    <span class="language-flag">🇪🇸</span>
+                    <h3 class="language-name">Español</h3>
+                    <div class="book-cover">
+                        <img src="exodosespanol.jpg" alt="Éxodos en Español" onerror="this.parentElement.innerHTML='Portada<br>Español'">
+                    </div>
+                    <button class="audio-btn" onclick="playAudio('EXODOSESPANOL.mp3')">
+                        🎧 Escuchar en Español
+                    </button>
+                    <div class="format-buttons">
+                        <a href="#" class="format-btn ebook">📱 eBook</a>
+                        <a href="#" class="format-btn print">📚 Libro Impreso</a>
+                    </div>
                 </div>
-                <div class="format-buttons">
-                    <a href="#" class="format-btn ebook">📱 eBook</a>
-                    <a href="#" class="format-btn print">📚 Libro Impreso</a>
-                    <a href="#" class="format-btn audio">🎧 Audiolibro</a>
-                </div>
-            </div>
 
-            <!-- Inglés -->
-            <div class="language-card">
-                <span class="language-flag">🇬🇧</span>
-                <h3 class="language-name">English</h3>
-                <div class="book-cover">
-                    <img src="exodosingles.jpg" alt="ÉXODOS in English" onerror="this.parentElement.innerHTML='Cover<br>English'">>
+                <!-- Inglés -->
+                <div class="language-card">
+                    <span class="language-flag">🇬🇧</span>
+                    <h3 class="language-name">English</h3>
+                    <div class="book-cover">
+                        <img src="exodosingles.jpg" alt="ÉXODOS in English" onerror="this.parentElement.innerHTML='Cover<br>English'">
+                    </div>
+                    <button class="audio-btn" onclick="playAudio('EXODOSINGLES.mp3')">
+                        🎧 Listen in English
+                    </button>
+                    <div class="format-buttons">
+                        <a href="#" class="format-btn ebook">📱 eBook</a>
+                        <a href="#" class="format-btn print">📚 Print Book</a>
+                    </div>
                 </div>
-                <div class="format-buttons">
-                    <a href="#" class="format-btn ebook">📱 eBook</a>
-                    <a href="#" class="format-btn print">📚 Print Book</a>
-                    <a href="#" class="format-btn audio">🎧 Audiobook</a>
-                </div>
-            </div>
 
-            <!-- Francés -->
-            <div class="language-card">
-                <span class="language-flag">🇫🇷</span>
-                <h3 class="language-name">Français</h3>
-                <div class="book-cover">
-                    <img src="exodosfrances.jpg" alt="ÉXODOS en Français" onerror="this.parentElement.innerHTML='Couverture<br>Français'">>
+                <!-- Francés -->
+                <div class="language-card">
+                    <span class="language-flag">🇫🇷</span>
+                    <h3 class="language-name">Français</h3>
+                    <div class="book-cover">
+                        <img src="exodosfrances.jpg" alt="ÉXODOS en Français" onerror="this.parentElement.innerHTML='Couverture<br>Français'">
+                    </div>
+                    <button class="audio-btn" onclick="playAudio('EXODOSFRANCES.mp3')">
+                        🎧 Écouter en Français
+                    </button>
+                    <div class="format-buttons">
+                        <a href="#" class="format-btn ebook">📱 eBook</a>
+                        <a href="#" class="format-btn print">📚 Livre Imprimé</a>
+                    </div>
                 </div>
-                <div class="format-buttons">
-                    <a href="#" class="format-btn ebook">📱 eBook</a>
-                    <a href="#" class="format-btn print">📚 Livre Imprimé</a>
-                    <a href="#" class="format-btn audio">🎧 Livre Audio</a>
-                </div>
-            </div>
 
-            <!-- Alemán -->
-            <div class="language-card">
-                <span class="language-flag">🇩🇪</span>
-                <h3 class="language-name">Deutsch</h3>
-                <div class="book-cover">
-                    <img src="exodosaleman.jpg" alt="ÉXODOS auf Deutsch" onerror="this.parentElement.innerHTML='Cover<br>Deutsch'">>
-                </div>
-                <div class="format-buttons">
-                    <a href="#" class="format-btn ebook">📱 eBook</a>
-                    <a href="#" class="format-btn print">📚 Gedrucktes Buch</a>
-                    <a href="#" class="format-btn audio">🎧 Hörbuch</a>
+                <!-- Alemán -->
+                <div class="language-card">
+                    <span class="language-flag">🇩🇪</span>
+                    <h3 class="language-name">Deutsch</h3>
+                    <div class="book-cover">
+                        <img src="exodosaleman.jpg" alt="ÉXODOS auf Deutsch" onerror="this.parentElement.innerHTML='Cover<br>Deutsch'">
+                    </div>
+                    <button class="audio-btn" onclick="playAudio('EXODOSALEMAN.mp3')">
+                        🎧 Auf Deutsch hören
+                    </button>
+                    <div class="format-buttons">
+                        <a href="#" class="format-btn ebook">📱 eBook</a>
+                        <a href="#" class="format-btn print">📚 Gedrucktes Buch</a>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div class="carousel-indicators">
+            <div class="indicator active" onclick="goToSlide(0)"></div>
+            <div class="indicator" onclick="goToSlide(1)"></div>
+            <div class="indicator" onclick="goToSlide(2)"></div>
+            <div class="indicator" onclick="goToSlide(3)"></div>
         </div>
     </main>
 
@@ -348,11 +462,108 @@
     </footer>
 
     <script>
-        // Animación suave para los botones
+        let currentSlide = 0;
+        const totalSlides = 4;
+        let currentAudio = null;
+
+        function moveCarousel(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const translateX = -currentSlide * 25;
+            track.style.transform = `translateX(${translateX}%)`;
+            
+            // Actualizar indicadores
+            document.querySelectorAll('.indicator').forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function playAudio(filename) {
+            // Detener audio anterior si existe
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            // Crear nuevo elemento de audio
+            currentAudio = new Audio(filename);
+            
+            // Configurar eventos del audio
+            currentAudio.addEventListener('loadstart', function() {
+                console.log('Cargando audio:', filename);
+            });
+
+            currentAudio.addEventListener('canplay', function() {
+                console.log('Audio listo para reproducir');
+                currentAudio.play().catch(error => {
+                    console.error('Error al reproducir audio:', error);
+                    alert('Error al reproducir el audio. Verifica que el archivo existe: ' + filename);
+                });
+            });
+
+            currentAudio.addEventListener('error', function(e) {
+                console.error('Error al cargar audio:', e);
+                alert('No se pudo cargar el archivo de audio: ' + filename + '\nVerifica que el archivo existe en el servidor.');
+            });
+
+            currentAudio.addEventListener('ended', function() {
+                console.log('Audio terminado');
+                currentAudio = null;
+            });
+
+            // Intentar cargar el audio
+            currentAudio.load();
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                moveCarousel(-1);
+            } else if (e.key === 'ArrowRight') {
+                moveCarousel(1);
+            }
+        });
+
+        // Auto-play del carrusel (opcional)
+        let autoplayInterval;
+        
+        function startAutoplay() {
+            autoplayInterval = setInterval(() => {
+                moveCarousel(1);
+            }, 5000);
+        }
+
+        function stopAutoplay() {
+            clearInterval(autoplayInterval);
+        }
+
+        // Pausar autoplay cuando el usuario interactúa
+        document.querySelector('.carousel-wrapper').addEventListener('mouseenter', stopAutoplay);
+        document.querySelector('.carousel-wrapper').addEventListener('mouseleave', startAutoplay);
+
+        // Iniciar autoplay
+        startAutoplay();
+
+        // Animación suave para los botones de formato
         document.querySelectorAll('.format-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                // Aquí puedes añadir los enlaces reales a tus libros
                 alert('Redirigiendo a la tienda...');
             });
         });
@@ -373,16 +584,6 @@
                 header.appendChild(star);
             }
         }
-
-        // Añadir animación CSS para las estrellas
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes twinkle {
-                0%, 100% { opacity: 0.3; }
-                50% { opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
 
         createStars();
     </script>
